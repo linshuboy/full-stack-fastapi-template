@@ -1,14 +1,14 @@
-import { zodResolver } from "@hookform/resolvers/zod"
+import { zodResolver } from "@hookform/resolvers/zod";
 import {
   createFileRoute,
   Link as RouterLink,
   redirect,
-} from "@tanstack/react-router"
-import { useForm } from "react-hook-form"
-import { z } from "zod"
+} from "@tanstack/react-router";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
 
-import type { Body_login_login_access_token as AccessToken } from "@/client"
-import { AuthLayout } from "@/components/Common/AuthLayout"
+import type { Body_login_login_access_token as AccessToken } from "@/client";
+import { AuthLayout } from "@/components/Common/AuthLayout";
 import {
   Form,
   FormControl,
@@ -16,21 +16,21 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form"
-import { Input } from "@/components/ui/input"
-import { LoadingButton } from "@/components/ui/loading-button"
-import { PasswordInput } from "@/components/ui/password-input"
-import useAuth, { isLoggedIn } from "@/hooks/useAuth"
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { LoadingButton } from "@/components/ui/loading-button";
+import { PasswordInput } from "@/components/ui/password-input";
+import useAuth, { isLoggedIn } from "@/hooks/useAuth";
 
 const formSchema = z.object({
   username: z.email(),
   password: z
     .string()
-    .min(1, { message: "Password is required" })
-    .min(8, { message: "Password must be at least 8 characters" }),
-}) satisfies z.ZodType<AccessToken>
+    .min(1, { message: "密码不能为空" })
+    .min(8, { message: "密码至少需要8个字符" }),
+}) satisfies z.ZodType<AccessToken>;
 
-type FormData = z.infer<typeof formSchema>
+type FormData = z.infer<typeof formSchema>;
 
 export const Route = createFileRoute("/login")({
   component: Login,
@@ -38,20 +38,20 @@ export const Route = createFileRoute("/login")({
     if (isLoggedIn()) {
       throw redirect({
         to: "/",
-      })
+      });
     }
   },
   head: () => ({
     meta: [
       {
-        title: "Log In - FastAPI Cloud",
+        title: "登录 - 齐力智能助手",
       },
     ],
   }),
-})
+});
 
 function Login() {
-  const { loginMutation } = useAuth()
+  const { loginMutation } = useAuth();
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
     mode: "onBlur",
@@ -60,12 +60,12 @@ function Login() {
       username: "",
       password: "",
     },
-  })
+  });
 
   const onSubmit = (data: FormData) => {
-    if (loginMutation.isPending) return
-    loginMutation.mutate(data)
-  }
+    if (loginMutation.isPending) return;
+    loginMutation.mutate(data);
+  };
 
   return (
     <AuthLayout>
@@ -75,7 +75,7 @@ function Login() {
           className="flex flex-col gap-6"
         >
           <div className="flex flex-col items-center gap-2 text-center">
-            <h1 className="text-2xl font-bold">Login to your account</h1>
+            <h1 className="text-2xl font-bold">登录您的账户</h1>
           </div>
 
           <div className="grid gap-4">
@@ -84,7 +84,7 @@ function Login() {
               name="username"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Email</FormLabel>
+                  <FormLabel>邮箱</FormLabel>
                   <FormControl>
                     <Input
                       data-testid="email-input"
@@ -104,18 +104,18 @@ function Login() {
               render={({ field }) => (
                 <FormItem>
                   <div className="flex items-center">
-                    <FormLabel>Password</FormLabel>
+                    <FormLabel>密码</FormLabel>
                     <RouterLink
                       to="/recover-password"
                       className="ml-auto text-sm underline-offset-4 hover:underline"
                     >
-                      Forgot your password?
+                      忘记密码？
                     </RouterLink>
                   </div>
                   <FormControl>
                     <PasswordInput
                       data-testid="password-input"
-                      placeholder="Password"
+                      placeholder="密码"
                       {...field}
                     />
                   </FormControl>
@@ -125,18 +125,18 @@ function Login() {
             />
 
             <LoadingButton type="submit" loading={loginMutation.isPending}>
-              Log In
+              登录
             </LoadingButton>
           </div>
 
           <div className="text-center text-sm">
-            Don't have an account yet?{" "}
+            还没有账户？{" "}
             <RouterLink to="/signup" className="underline underline-offset-4">
-              Sign up
+              注册
             </RouterLink>
           </div>
         </form>
       </Form>
     </AuthLayout>
-  )
+  );
 }
