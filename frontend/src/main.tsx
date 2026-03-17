@@ -13,7 +13,15 @@ import { Toaster } from "./components/ui/sonner"
 import "./index.css"
 import { routeTree } from "./routeTree.gen"
 
-OpenAPI.BASE = import.meta.env.VITE_API_URL
+const normalizeApiBase = (base?: string) => {
+  const normalized = (base ?? "").trim().replace(/\/+$/, "")
+  if (normalized === "/api" || normalized.endsWith("/api")) {
+    return normalized.slice(0, -4)
+  }
+  return normalized
+}
+
+OpenAPI.BASE = normalizeApiBase(import.meta.env.VITE_API_URL)
 OpenAPI.TOKEN = async () => {
   return localStorage.getItem("access_token") || ""
 }

@@ -50,6 +50,12 @@ services:
     ports:
       - "5432:5432"
 
+  minio:
+    restart: "no"
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+
   adminer:
     restart: "no"
     ports:

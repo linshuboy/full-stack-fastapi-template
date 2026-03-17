@@ -2,7 +2,18 @@ from sqlmodel import Session, create_engine, select
 
 from app import crud
 from app.core.config import settings
-from app.models import User, UserCreate
+from app.models import SkillCategory, User, UserCreate
+
+DEFAULT_SKILL_CATEGORIES = [
+    "文档处理",
+    "知识库管理",
+    "内容创作",
+    "开发工具",
+    "数据分析",
+    "安全防护",
+    "AI增强",
+    "其他",
+]
 
 engine = create_engine(str(settings.SQLALCHEMY_DATABASE_URI))
 
@@ -31,3 +42,18 @@ def init_db(session: Session) -> None:
             is_superuser=True,
         )
         user = crud.create_user(session=session, user_create=user_in)
+
+    for index, category_name in enumerate(DEFAULT_SKILL_CATEGORIES):
+        existing_category = session.exec(
+            select(SkillCategory).where(SkillCategory.name == category_name)
+        ).first()
+        if existing_category:
+            continue
+        session.add(
+            SkillCategory(
+                name=category_name,
+                sort_order=index,
+                is_active=True,
+            )
+        )
+    session.commit()

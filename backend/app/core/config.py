@@ -3,7 +3,6 @@ import warnings
 from typing import Annotated, Any, Literal
 
 from pydantic import (
-    AnyUrl,
     BeforeValidator,
     EmailStr,
     HttpUrl,
@@ -37,16 +36,17 @@ class Settings(BaseSettings):
     FRONTEND_HOST: str = "http://localhost:5173"
     ENVIRONMENT: Literal["local", "staging", "production"] = "local"
 
-    BACKEND_CORS_ORIGINS: Annotated[
-        list[AnyUrl] | str, BeforeValidator(parse_cors)
-    ] = []
+    BACKEND_CORS_ORIGINS: Annotated[list[str] | str, BeforeValidator(parse_cors)] = []
 
     @computed_field  # type: ignore[prop-decorator]
     @property
     def all_cors_origins(self) -> list[str]:
-        return [str(origin).rstrip("/") for origin in self.BACKEND_CORS_ORIGINS] + [
-            self.FRONTEND_HOST
+        configured_origins = [
+            str(origin).rstrip("/") for origin in self.BACKEND_CORS_ORIGINS
         ]
+        if "*" in configured_origins:
+            return ["*"]
+        return configured_origins + [self.FRONTEND_HOST.rstrip("/")]
 
     PROJECT_NAME: str
     SENTRY_DSN: HttpUrl | None = None
@@ -55,6 +55,13 @@ class Settings(BaseSettings):
     POSTGRES_USER: str
     POSTGRES_PASSWORD: str = ""
     POSTGRES_DB: str = ""
+    MINIO_ENDPOINT: str = "minio:9000"
+    MINIO_ACCESS_KEY: str = "minioadmin"
+    MINIO_SECRET_KEY: str = "minioadmin"
+    MINIO_BUCKET: str = "skills"
+    MINIO_SECURE: bool = False
+    SKILL_FILE_MAX_SIZE_MB: int = 200
+    SKILL_DOWNLOAD_URL_EXPIRE_SECONDS: int = 3600
 
     @computed_field  # type: ignore[prop-decorator]
     @property

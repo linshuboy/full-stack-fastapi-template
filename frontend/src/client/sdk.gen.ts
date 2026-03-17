@@ -3,7 +3,7 @@
 import type { CancelablePromise } from './core/CancelablePromise';
 import { OpenAPI } from './core/OpenAPI';
 import { request as __request } from './core/request';
-import type { ItemsReadItemsData, ItemsReadItemsResponse, ItemsCreateItemData, ItemsCreateItemResponse, ItemsReadItemData, ItemsReadItemResponse, ItemsUpdateItemData, ItemsUpdateItemResponse, ItemsDeleteItemData, ItemsDeleteItemResponse, LoginLoginAccessTokenData, LoginLoginAccessTokenResponse, LoginTestTokenResponse, LoginRecoverPasswordData, LoginRecoverPasswordResponse, LoginResetPasswordData, LoginResetPasswordResponse, LoginRecoverPasswordHtmlContentData, LoginRecoverPasswordHtmlContentResponse, PrivateCreateUserData, PrivateCreateUserResponse, UsersReadUsersData, UsersReadUsersResponse, UsersCreateUserData, UsersCreateUserResponse, UsersReadUserMeResponse, UsersDeleteUserMeResponse, UsersUpdateUserMeData, UsersUpdateUserMeResponse, UsersUpdatePasswordMeData, UsersUpdatePasswordMeResponse, UsersRegisterUserData, UsersRegisterUserResponse, UsersReadUserByIdData, UsersReadUserByIdResponse, UsersUpdateUserData, UsersUpdateUserResponse, UsersDeleteUserData, UsersDeleteUserResponse, UtilsTestEmailData, UtilsTestEmailResponse, UtilsHealthCheckResponse } from './types.gen';
+import type { ItemsReadItemsData, ItemsReadItemsResponse, ItemsCreateItemData, ItemsCreateItemResponse, ItemsReadItemData, ItemsReadItemResponse, ItemsUpdateItemData, ItemsUpdateItemResponse, ItemsDeleteItemData, ItemsDeleteItemResponse, LoginLoginAccessTokenData, LoginLoginAccessTokenResponse, LoginTestTokenResponse, LoginRecoverPasswordData, LoginRecoverPasswordResponse, LoginResetPasswordData, LoginResetPasswordResponse, LoginRecoverPasswordHtmlContentData, LoginRecoverPasswordHtmlContentResponse, PrivateCreateUserData, PrivateCreateUserResponse, SkillCategoriesReadSkillCategoriesData, SkillCategoriesReadSkillCategoriesResponse, SkillCategoriesCreateSkillCategoryData, SkillCategoriesCreateSkillCategoryResponse, SkillCategoriesUpdateSkillCategoryData, SkillCategoriesUpdateSkillCategoryResponse, SkillCategoriesDeleteSkillCategoryData, SkillCategoriesDeleteSkillCategoryResponse, SkillsReadSkillsData, SkillsReadSkillsResponse, SkillsCreateSkillData, SkillsCreateSkillResponse, SkillsReadSkillData, SkillsReadSkillResponse, SkillsUpdateSkillData, SkillsUpdateSkillResponse, SkillsDeleteSkillData, SkillsDeleteSkillResponse, SkillsReplaceSkillFileData, SkillsReplaceSkillFileResponse, SkillsPublishSkillData, SkillsPublishSkillResponse, SkillsGetSkillDownloadData, SkillsGetSkillDownloadResponse, UsersReadUsersData, UsersReadUsersResponse, UsersCreateUserData, UsersCreateUserResponse, UsersReadUserMeResponse, UsersDeleteUserMeResponse, UsersUpdateUserMeData, UsersUpdateUserMeResponse, UsersUpdatePasswordMeData, UsersUpdatePasswordMeResponse, UsersRegisterUserData, UsersRegisterUserResponse, UsersReadUserByIdData, UsersReadUserByIdResponse, UsersUpdateUserData, UsersUpdateUserResponse, UsersDeleteUserData, UsersDeleteUserResponse, UtilsTestEmailData, UtilsTestEmailResponse, UtilsHealthCheckResponse } from './types.gen';
 
 export class ItemsService {
     /**
@@ -228,6 +228,270 @@ export class PrivateService {
             url: '/api/v1/private/users/',
             body: data.requestBody,
             mediaType: 'application/json',
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+}
+
+export class SkillCategoriesService {
+    /**
+     * Read Skill Categories
+     * @param data The data for the request.
+     * @param data.skip
+     * @param data.limit
+     * @param data.includeInactive
+     * @returns SkillCategoriesPublic Successful Response
+     * @throws ApiError
+     */
+    public static readSkillCategories(data: SkillCategoriesReadSkillCategoriesData = {}): CancelablePromise<SkillCategoriesReadSkillCategoriesResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/v1/skill-categories/',
+            query: {
+                skip: data.skip,
+                limit: data.limit,
+                include_inactive: data.includeInactive
+            },
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Create Skill Category
+     * @param data The data for the request.
+     * @param data.requestBody
+     * @returns SkillCategoryPublic Successful Response
+     * @throws ApiError
+     */
+    public static createSkillCategory(data: SkillCategoriesCreateSkillCategoryData): CancelablePromise<SkillCategoriesCreateSkillCategoryResponse> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/api/v1/skill-categories/',
+            body: data.requestBody,
+            mediaType: 'application/json',
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Update Skill Category
+     * @param data The data for the request.
+     * @param data.categoryId
+     * @param data.requestBody
+     * @returns SkillCategoryPublic Successful Response
+     * @throws ApiError
+     */
+    public static updateSkillCategory(data: SkillCategoriesUpdateSkillCategoryData): CancelablePromise<SkillCategoriesUpdateSkillCategoryResponse> {
+        return __request(OpenAPI, {
+            method: 'PATCH',
+            url: '/api/v1/skill-categories/{category_id}',
+            path: {
+                category_id: data.categoryId
+            },
+            body: data.requestBody,
+            mediaType: 'application/json',
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Delete Skill Category
+     * @param data The data for the request.
+     * @param data.categoryId
+     * @returns Message Successful Response
+     * @throws ApiError
+     */
+    public static deleteSkillCategory(data: SkillCategoriesDeleteSkillCategoryData): CancelablePromise<SkillCategoriesDeleteSkillCategoryResponse> {
+        return __request(OpenAPI, {
+            method: 'DELETE',
+            url: '/api/v1/skill-categories/{category_id}',
+            path: {
+                category_id: data.categoryId
+            },
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+}
+
+export class SkillsService {
+    /**
+     * Read Skills
+     * @param data The data for the request.
+     * @param data.skip
+     * @param data.limit
+     * @param data.categoryId
+     * @param data.onlyPublished
+     * @returns SkillsPublic Successful Response
+     * @throws ApiError
+     */
+    public static readSkills(data: SkillsReadSkillsData = {}): CancelablePromise<SkillsReadSkillsResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/v1/skills/',
+            query: {
+                skip: data.skip,
+                limit: data.limit,
+                category_id: data.categoryId,
+                only_published: data.onlyPublished
+            },
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Create Skill
+     * @param data The data for the request.
+     * @param data.formData
+     * @returns SkillPublic Successful Response
+     * @throws ApiError
+     */
+    public static createSkill(data: SkillsCreateSkillData): CancelablePromise<SkillsCreateSkillResponse> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/api/v1/skills/',
+            formData: data.formData,
+            mediaType: 'multipart/form-data',
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Read Skill
+     * @param data The data for the request.
+     * @param data.skillId
+     * @returns SkillPublic Successful Response
+     * @throws ApiError
+     */
+    public static readSkill(data: SkillsReadSkillData): CancelablePromise<SkillsReadSkillResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/v1/skills/{skill_id}',
+            path: {
+                skill_id: data.skillId
+            },
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Update Skill
+     * @param data The data for the request.
+     * @param data.skillId
+     * @param data.requestBody
+     * @returns SkillPublic Successful Response
+     * @throws ApiError
+     */
+    public static updateSkill(data: SkillsUpdateSkillData): CancelablePromise<SkillsUpdateSkillResponse> {
+        return __request(OpenAPI, {
+            method: 'PATCH',
+            url: '/api/v1/skills/{skill_id}',
+            path: {
+                skill_id: data.skillId
+            },
+            body: data.requestBody,
+            mediaType: 'application/json',
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Delete Skill
+     * @param data The data for the request.
+     * @param data.skillId
+     * @returns Message Successful Response
+     * @throws ApiError
+     */
+    public static deleteSkill(data: SkillsDeleteSkillData): CancelablePromise<SkillsDeleteSkillResponse> {
+        return __request(OpenAPI, {
+            method: 'DELETE',
+            url: '/api/v1/skills/{skill_id}',
+            path: {
+                skill_id: data.skillId
+            },
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Replace Skill File
+     * @param data The data for the request.
+     * @param data.skillId
+     * @param data.formData
+     * @returns SkillPublic Successful Response
+     * @throws ApiError
+     */
+    public static replaceSkillFile(data: SkillsReplaceSkillFileData): CancelablePromise<SkillsReplaceSkillFileResponse> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/api/v1/skills/{skill_id}/file',
+            path: {
+                skill_id: data.skillId
+            },
+            formData: data.formData,
+            mediaType: 'multipart/form-data',
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Publish Skill
+     * @param data The data for the request.
+     * @param data.skillId
+     * @param data.requestBody
+     * @returns SkillPublic Successful Response
+     * @throws ApiError
+     */
+    public static publishSkill(data: SkillsPublishSkillData): CancelablePromise<SkillsPublishSkillResponse> {
+        return __request(OpenAPI, {
+            method: 'PATCH',
+            url: '/api/v1/skills/{skill_id}/publish',
+            path: {
+                skill_id: data.skillId
+            },
+            body: data.requestBody,
+            mediaType: 'application/json',
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Get Skill Download
+     * @param data The data for the request.
+     * @param data.skillId
+     * @returns SkillDownloadPublic Successful Response
+     * @throws ApiError
+     */
+    public static getSkillDownload(data: SkillsGetSkillDownloadData): CancelablePromise<SkillsGetSkillDownloadResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/v1/skills/{skill_id}/download',
+            path: {
+                skill_id: data.skillId
+            },
             errors: {
                 422: 'Validation Error'
             }

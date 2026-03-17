@@ -9,6 +9,18 @@ export type Body_login_login_access_token = {
     client_secret?: (string | null);
 };
 
+export type Body_skills_create_skill = {
+    title: string;
+    description?: (string | null);
+    category_id: string;
+    is_published?: boolean;
+    file: (Blob | File);
+};
+
+export type Body_skills_replace_skill_file = {
+    file: (Blob | File);
+};
+
 export type HTTPValidationError = {
     detail?: Array<ValidationError>;
 };
@@ -50,6 +62,70 @@ export type PrivateUserCreate = {
     password: string;
     full_name: string;
     is_verified?: boolean;
+};
+
+export type SkillCategoriesPublic = {
+    data: Array<SkillCategoryPublic>;
+    count: number;
+};
+
+export type SkillCategoryCreate = {
+    name: string;
+    description?: (string | null);
+    sort_order?: number;
+    is_active?: boolean;
+};
+
+export type SkillCategoryPublic = {
+    name: string;
+    description?: (string | null);
+    sort_order?: number;
+    is_active?: boolean;
+    id: string;
+    created_at?: (string | null);
+};
+
+export type SkillCategoryUpdate = {
+    name?: (string | null);
+    description?: (string | null);
+    sort_order?: (number | null);
+    is_active?: (boolean | null);
+};
+
+export type SkillDownloadPublic = {
+    url: string;
+    expires_in: number;
+};
+
+export type SkillPublic = {
+    title: string;
+    description?: (string | null);
+    is_published?: boolean;
+    id: string;
+    category_id: string;
+    category_name: string;
+    file_name: string;
+    file_size: number;
+    file_content_type?: (string | null);
+    created_by_id: string;
+    created_at?: (string | null);
+    updated_at?: (string | null);
+};
+
+export type SkillPublishUpdate = {
+    is_published: boolean;
+};
+
+export type SkillsPublic = {
+    data: Array<SkillPublic>;
+    count: number;
+};
+
+export type SkillUpdate = {
+    title?: (string | null);
+    description?: (string | null);
+    category_id?: (string | null);
+    is_published?: (boolean | null);
 };
 
 export type Token = {
@@ -172,6 +248,87 @@ export type PrivateCreateUserData = {
 };
 
 export type PrivateCreateUserResponse = (UserPublic);
+
+export type SkillCategoriesReadSkillCategoriesData = {
+    includeInactive?: boolean;
+    limit?: number;
+    skip?: number;
+};
+
+export type SkillCategoriesReadSkillCategoriesResponse = (SkillCategoriesPublic);
+
+export type SkillCategoriesCreateSkillCategoryData = {
+    requestBody: SkillCategoryCreate;
+};
+
+export type SkillCategoriesCreateSkillCategoryResponse = (SkillCategoryPublic);
+
+export type SkillCategoriesUpdateSkillCategoryData = {
+    categoryId: string;
+    requestBody: SkillCategoryUpdate;
+};
+
+export type SkillCategoriesUpdateSkillCategoryResponse = (SkillCategoryPublic);
+
+export type SkillCategoriesDeleteSkillCategoryData = {
+    categoryId: string;
+};
+
+export type SkillCategoriesDeleteSkillCategoryResponse = (Message);
+
+export type SkillsReadSkillsData = {
+    categoryId?: (string | null);
+    limit?: number;
+    onlyPublished?: boolean;
+    skip?: number;
+};
+
+export type SkillsReadSkillsResponse = (SkillsPublic);
+
+export type SkillsCreateSkillData = {
+    formData: Body_skills_create_skill;
+};
+
+export type SkillsCreateSkillResponse = (SkillPublic);
+
+export type SkillsReadSkillData = {
+    skillId: string;
+};
+
+export type SkillsReadSkillResponse = (SkillPublic);
+
+export type SkillsUpdateSkillData = {
+    requestBody: SkillUpdate;
+    skillId: string;
+};
+
+export type SkillsUpdateSkillResponse = (SkillPublic);
+
+export type SkillsDeleteSkillData = {
+    skillId: string;
+};
+
+export type SkillsDeleteSkillResponse = (Message);
+
+export type SkillsReplaceSkillFileData = {
+    formData: Body_skills_replace_skill_file;
+    skillId: string;
+};
+
+export type SkillsReplaceSkillFileResponse = (SkillPublic);
+
+export type SkillsPublishSkillData = {
+    requestBody: SkillPublishUpdate;
+    skillId: string;
+};
+
+export type SkillsPublishSkillResponse = (SkillPublic);
+
+export type SkillsGetSkillDownloadData = {
+    skillId: string;
+};
+
+export type SkillsGetSkillDownloadResponse = (SkillDownloadPublic);
 
 export type UsersReadUsersData = {
     limit?: number;
