@@ -53,6 +53,17 @@ def _normalized_path_parts(path: str) -> list[str]:
     return parts
 
 
+def _is_ignored_archive_entry(parts: list[str]) -> bool:
+    lowered_parts = [part.lower() for part in parts]
+    if lowered_parts[0] == "__macosx":
+        return True
+    if lowered_parts[-1] == ".ds_store":
+        return True
+    if any(part.startswith("._") for part in parts):
+        return True
+    return False
+
+
 def validate_archive_contains_skill_md(*, filename: str, file_bytes: bytes) -> str:
     rule_message = (
         "Archive must contain exactly one top-level directory and exactly one "
@@ -75,6 +86,8 @@ def validate_archive_contains_skill_md(*, filename: str, file_bytes: bytes) -> s
     for path, is_dir in members:
         parts = _normalized_path_parts(path)
         if not parts:
+            continue
+        if _is_ignored_archive_entry(parts):
             continue
 
         top_level_dirs.add(parts[0])

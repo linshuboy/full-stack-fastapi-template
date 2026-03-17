@@ -139,6 +139,36 @@ def test_create_skill_requires_single_top_level_directory_only(
     assert response.json()["detail"] == ARCHIVE_RULE_DETAIL
 
 
+def test_create_skill_allows_macos_metadata_entries(
+    client: TestClient, superuser_token_headers: dict[str, str]
+) -> None:
+    category_id = _get_active_category_id(client, superuser_token_headers)
+    archive_bytes = _build_zip_archive(
+        {
+            "frontend-design/SKILL.md": b"# skill",
+            "frontend-design/LICENSE.txt": b"license",
+            "__MACOSX/._frontend-design": b"",
+            "__MACOSX/frontend-design/._SKILL.md": b"",
+            "frontend-design/.DS_Store": b"",
+        },
+        root_dir="",
+    )
+    with patch("app.api.routes.skills.upload_skill_file", return_value=None):
+        response = client.post(
+            f"{settings.API_V1_STR}/skills/",
+            headers=superuser_token_headers,
+            data={
+                "title": "兼容 macOS 元数据",
+                "description": "mac metadata",
+                "category_id": category_id,
+                "is_published": "true",
+            },
+            files={"file": ("frontend-design.zip", archive_bytes, "application/zip")},
+        )
+    assert response.status_code == 200
+    assert response.json()["archive_root_dir"] == "frontend-design"
+
+
 def test_create_skill_rejects_duplicate_file_name(
     client: TestClient, superuser_token_headers: dict[str, str]
 ) -> None:
