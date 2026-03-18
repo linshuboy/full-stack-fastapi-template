@@ -4,6 +4,7 @@ set -euo pipefail
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 TARGET_ENV="${TARGET_ENV:-prod}"
 SKIP_UP=0
+FORCE_RENEW=0
 
 usage() {
   cat <<EOF
@@ -12,6 +13,7 @@ Usage: $0 [--env prod|test] [--skip-up]
 Options:
   --env <prod|test>  Deployment target environment (default: prod)
   --skip-up          Only prepare certificate, skip docker compose up
+  --force-renew      Always reissue certificate even if current cert is still valid
   -h, --help         Show this help
 EOF
 }
@@ -31,6 +33,9 @@ while [[ $# -gt 0 ]]; do
       ;;
     --skip-up)
       SKIP_UP=1
+      ;;
+    --force-renew)
+      FORCE_RENEW=1
       ;;
     prod|test)
       TARGET_ENV="$1"
@@ -167,7 +172,7 @@ for host in "${HOSTS[@]}"; do
   fi
 done
 
-if [[ -f "$CERT_FILE" && -f "$KEY_FILE" ]] && openssl x509 -checkend 0 -noout -in "$CERT_FILE" >/dev/null 2>&1; then
+if [[ "$FORCE_RENEW" -eq 0 ]] && [[ -f "$CERT_FILE" && -f "$KEY_FILE" ]] && openssl x509 -checkend 0 -noout -in "$CERT_FILE" >/dev/null 2>&1; then
   echo "Certificate exists and is still valid, reusing:"
   echo "  $CERT_FILE"
 else
