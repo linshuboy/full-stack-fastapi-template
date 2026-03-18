@@ -31,16 +31,8 @@ services:
       - MINIO_ROOT_USER=${MINIO_ACCESS_KEY?Variable not set}
       - MINIO_ROOT_PASSWORD=${MINIO_SECRET_KEY?Variable not set}
 
-  adminer:
-    image: adminer
-    restart: always
-    depends_on:
-      - db
-    environment:
-      - ADMINER_DESIGN=pepa-linha-dark
-
   nginx:
-    image: nginx:1
+    image: nginx:1.27-alpine
     restart: always
     depends_on:
       - backend

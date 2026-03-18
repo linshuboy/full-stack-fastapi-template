@@ -56,11 +56,6 @@ services:
       - "9000:9000"
       - "9001:9001"
 
-  adminer:
-    restart: "no"
-    ports:
-      - "8080:8080"
-
   backend:
     restart: "no"
     ports:
