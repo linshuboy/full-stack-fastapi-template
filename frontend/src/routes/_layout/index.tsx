@@ -7,7 +7,7 @@ export const Route = createFileRoute("/_layout/")({
   head: () => ({
     meta: [
       {
-        title: "Dashboard - FastAPI Cloud",
+        title: "仪表盘 - 齐力智能助手",
       },
     ],
   }),
@@ -20,10 +20,10 @@ function Dashboard() {
     <div>
       <div>
         <h1 className="text-2xl truncate max-w-sm">
-          Hi, {currentUser?.full_name || currentUser?.email} 👋
+          你好，{currentUser?.full_name || currentUser?.email} 👋
         </h1>
         <p className="text-muted-foreground">
-          Welcome back, nice to see you again!!!
+          欢迎回来，很高兴再次见到你！！！
         </p>
       </div>
     </div>

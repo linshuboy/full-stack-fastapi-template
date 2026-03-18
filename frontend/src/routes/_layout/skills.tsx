@@ -54,7 +54,7 @@ export const Route = createFileRoute("/_layout/skills")({
   head: () => ({
     meta: [
       {
-        title: "Skills - FastAPI Cloud",
+        title: "技能 - 齐力智能助手",
       },
     ],
   }),
