@@ -1,8 +1,8 @@
 import { expect, test } from "@playwright/test"
 import { firstSuperuser, firstSuperuserPassword } from "./config.ts"
-import { createUser } from "./utils/privateApi"
-import { randomEmail, randomPassword } from "./utils/random"
-import { logInUser } from "./utils/user"
+import { createUser } from "./utils/privateApi.ts"
+import { randomEmail, randomPassword } from "./utils/random.ts"
+import { logInUser } from "./utils/user.ts"
 
 test("Admin page is accessible and shows correct title", async ({ page }) => {
   await page.goto("/admin")
