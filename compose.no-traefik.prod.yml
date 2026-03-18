@@ -1,7 +1,7 @@
 services:
 
   db:
-    image: postgres:18
+    image: "${DOCKER_IMAGE_POSTGRES-postgres:18}"
     restart: always
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
@@ -12,7 +12,7 @@ services:
     volumes:
       - app-db-data:/var/lib/postgresql/data/pgdata
     env_file:
-      - .env
+      - .env.prod
     environment:
       - PGDATA=/var/lib/postgresql/data/pgdata
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD?Variable not set}
@@ -20,46 +20,43 @@ services:
       - POSTGRES_DB=${POSTGRES_DB?Variable not set}
 
   minio:
-    image: minio/minio:latest
+    image: "${DOCKER_IMAGE_MINIO-minio/minio:latest}"
     restart: always
     command: server /data --console-address ":9001"
     volumes:
       - app-minio-data:/data
     env_file:
-      - .env
+      - .env.prod
     environment:
       - MINIO_ROOT_USER=${MINIO_ACCESS_KEY?Variable not set}
       - MINIO_ROOT_PASSWORD=${MINIO_SECRET_KEY?Variable not set}
 
   nginx:
-    image: nginx:1.27-alpine
+    image: "${DOCKER_IMAGE_NGINX-nginx:1.27-alpine}"
     restart: always
     depends_on:
       - backend
       - frontend
     ports:
       - "${NGINX_PORT-80}:80"
+      - "${NGINX_HTTPS_PORT-443}:443"
     volumes:
       - ./nginx/reverse-proxy.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./nginx/certs/prod:/etc/nginx/certs:ro
 
   prestart:
     image: "${DOCKER_IMAGE_BACKEND?Variable not set}:${TAG-latest}"
-    build:
-      context: .
-      dockerfile: backend/Dockerfile
-      args:
-        - "UV_INDEX_URL=${UV_INDEX_URL-https://pypi.tuna.tsinghua.edu.cn/simple}"
     depends_on:
       db:
         condition: service_healthy
         restart: true
     command: bash scripts/prestart.sh
     env_file:
-      - .env
+      - .env.prod
     environment:
       - DOMAIN=${DOMAIN}
       - FRONTEND_HOST=${FRONTEND_HOST?Variable not set}
-      - ENVIRONMENT=${ENVIRONMENT}
+      - ENVIRONMENT=${ENVIRONMENT-production}
       - BACKEND_CORS_ORIGINS=${BACKEND_CORS_ORIGINS}
       - SECRET_KEY=${SECRET_KEY?Variable not set}
       - FIRST_SUPERUSER=${FIRST_SUPERUSER?Variable not set}
@@ -85,11 +82,11 @@ services:
       prestart:
         condition: service_completed_successfully
     env_file:
-      - .env
+      - .env.prod
     environment:
       - DOMAIN=${DOMAIN}
       - FRONTEND_HOST=${FRONTEND_HOST?Variable not set}
-      - ENVIRONMENT=${ENVIRONMENT}
+      - ENVIRONMENT=${ENVIRONMENT-production}
       - BACKEND_CORS_ORIGINS=${BACKEND_CORS_ORIGINS}
       - SECRET_KEY=${SECRET_KEY?Variable not set}
       - FIRST_SUPERUSER=${FIRST_SUPERUSER?Variable not set}
@@ -109,21 +106,10 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
-    build:
-      context: .
-      dockerfile: backend/Dockerfile
-      args:
-        - "UV_INDEX_URL=${UV_INDEX_URL-https://pypi.tuna.tsinghua.edu.cn/simple}"
 
   frontend:
     image: "${DOCKER_IMAGE_FRONTEND?Variable not set}:${TAG-latest}"
     restart: always
-    build:
-      context: .
-      dockerfile: frontend/Dockerfile
-      args:
-        - "VITE_API_URL=${VITE_API_URL-}"
-        - NODE_ENV=production
 
 volumes:
   app-db-data:
