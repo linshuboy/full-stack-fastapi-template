@@ -1,20 +1,20 @@
-import { Briefcase, FolderArchive, Home, Users } from "lucide-react"
+// import { Briefcase, FolderArchive, Home, Users } from "lucide-react"
+import { FolderArchive, Home, Users } from "lucide-react"
 
-import { SidebarAppearance } from "@/components/Common/Appearance"
 import { Logo } from "@/components/Common/Logo"
 import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
   SidebarHeader,
+  SidebarTrigger,
 } from "@/components/ui/sidebar"
 import useAuth from "@/hooks/useAuth"
 import { type Item, Main } from "./Main"
-import { User } from "./User"
 
 const baseItems: Item[] = [
   { icon: Home, title: "仪表盘", path: "/" },
-  { icon: Briefcase, title: "项目", path: "/items" },
+  // { icon: Briefcase, title: "项目", path: "/items" },
   { icon: FolderArchive, title: "技能", path: "/skills" },
 ]
 
@@ -33,9 +33,8 @@ export function AppSidebar() {
       <SidebarContent>
         <Main items={items} />
       </SidebarContent>
-      <SidebarFooter>
-        <SidebarAppearance />
-        <User user={currentUser} />
+      <SidebarFooter className="px-4 py-4">
+        <SidebarTrigger className="w-full justify-start" />
       </SidebarFooter>
     </Sidebar>
   )
