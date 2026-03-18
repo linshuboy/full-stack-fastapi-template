@@ -1,7 +1,7 @@
-import { createFileRoute, Outlet, redirect } from "@tanstack/react-router"
+import { createFileRoute, Outlet, redirect, useLocation } from "@tanstack/react-router"
 
 // import { Footer } from "@/components/Common/Footer"
-import { SidebarAppearance } from "@/components/Common/Appearance"
+import { Appearance } from "@/components/Common/Appearance"
 import AppSidebar from "@/components/Sidebar/AppSidebar"
 import { User } from "@/components/Sidebar/User"
 import {
@@ -24,14 +24,28 @@ export const Route = createFileRoute("/_layout")({
 
 function Layout() {
   const { user: currentUser } = useAuth()
+  const location = useLocation()
   
   return (
     <SidebarProvider>
       <AppSidebar />
       <SidebarInset>
-        <header className="sticky top-0 z-10 flex h-16 shrink-0 items-center justify-end border-b px-4">
+        <header className="sticky top-0 z-10 flex h-16 shrink-0 items-center justify-between border-b px-4">
+          <h1 className="text-xl font-semibold">
+            {(() => {
+              const pathname = location.pathname
+              const pathToTitle: Record<string, string> = {
+                "/": "仪表盘",
+                "/skills": "技能",
+                "/admin": "用户",
+                "/settings": "设置"
+              }
+              return pathToTitle[pathname] || "齐力智能助手"
+            })()}
+          </h1>
           <div className="flex items-center gap-4">
-            <SidebarAppearance />
+            <Appearance />
+            <div className="h-6 w-px bg-border" />
             <User user={currentUser} />
           </div>
         </header>
