@@ -1,16 +1,16 @@
-import { Link } from "@tanstack/react-router"
+import { Link } from "@tanstack/react-router";
 
-import { useTheme } from "@/components/theme-provider"
-import { cn } from "@/lib/utils"
-import icon from "/assets/images/fastapi-icon.svg"
-import iconLight from "/assets/images/fastapi-icon-light.svg"
-import logo from "/assets/images/fastapi-logo.svg"
-import logoLight from "/assets/images/fastapi-logo-light.svg"
+import { useTheme } from "@/components/theme-provider";
+import { cn } from "@/lib/utils";
+import icon from "/assets/images/favicon.png";
+import iconLight from "/assets/images/favicon.png";
+import logo from "/assets/images/logo-title.png";
+import logoLight from "/assets/images/logo-title.png";
 
 interface LogoProps {
-  variant?: "full" | "icon" | "responsive"
-  className?: string
-  asLink?: boolean
+  variant?: "full" | "icon" | "responsive";
+  className?: string;
+  asLink?: boolean;
 }
 
 export function Logo({
@@ -18,11 +18,11 @@ export function Logo({
   className,
   asLink = true,
 }: LogoProps) {
-  const { resolvedTheme } = useTheme()
-  const isDark = resolvedTheme === "dark"
+  const { resolvedTheme } = useTheme();
+  const isDark = resolvedTheme === "dark";
 
-  const fullLogo = isDark ? logoLight : logo
-  const iconLogo = isDark ? iconLight : icon
+  const fullLogo = isDark ? logoLight : logo;
+  const iconLogo = isDark ? iconLight : icon;
 
   const content =
     variant === "responsive" ? (
@@ -50,11 +50,11 @@ export function Logo({
         alt="FastAPI"
         className={cn(variant === "full" ? "h-6 w-auto" : "size-5", className)}
       />
-    )
+    );
 
   if (!asLink) {
-    return content
+    return content;
   }
 
-  return <Link to="/">{content}</Link>
+  return <Link to="/">{content}</Link>;
 }
