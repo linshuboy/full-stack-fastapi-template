@@ -10,7 +10,6 @@ export function AuthLayout({ children }: AuthLayoutProps) {
   return (
     <div className="grid min-h-svh lg:grid-cols-2">
       <div className="relative hidden lg:flex lg:items-center lg:justify-center bg-cover bg-center" style={{ backgroundImage: 'url(/assets/images/newLoginBack.png)' }}>
-        <div className="text-white text-2xl font-bold text-center">齐力智能助手管理平台</div>
       </div>
       <div className="flex flex-col gap-4 p-6 md:p-10">
         <div className="flex justify-end">

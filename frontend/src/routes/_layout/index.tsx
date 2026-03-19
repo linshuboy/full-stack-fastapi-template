@@ -7,7 +7,7 @@ export const Route = createFileRoute("/_layout/")({
   head: () => ({
     meta: [
       {
-        title: "仪表盘 - 齐力智能助手",
+        title: "仪表盘 - 齐力 AI 技能平台",
       },
     ],
   }),
