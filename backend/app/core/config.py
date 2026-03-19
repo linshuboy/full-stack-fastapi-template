@@ -60,7 +60,7 @@ class Settings(BaseSettings):
     MINIO_SECRET_KEY: str = "minioadmin"
     MINIO_BUCKET: str = "skills"
     MINIO_SECURE: bool = False
-    SKILL_FILE_MAX_SIZE_MB: int = 200
+    SKILL_FILE_MAX_SIZE_MB: int = 1024
     SKILL_DOWNLOAD_URL_EXPIRE_SECONDS: int = 3600
 
     @computed_field  # type: ignore[prop-decorator]
