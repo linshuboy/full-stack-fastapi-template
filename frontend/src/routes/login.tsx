@@ -129,12 +129,13 @@ function Login() {
             </LoadingButton>
           </div>
 
-          <div className="text-center text-sm">
+          <div className="hidden text-center text-sm">
             还没有账户？{" "}
             <RouterLink to="/signup" className="underline underline-offset-4">
               注册
             </RouterLink>
           </div>
+
         </form>
       </Form>
     </AuthLayout>
