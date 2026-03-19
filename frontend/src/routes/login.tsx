@@ -44,7 +44,7 @@ export const Route = createFileRoute("/login")({
   head: () => ({
     meta: [
       {
-        title: "登录 - 齐力智能助手",
+        title: "登录 - 齐力 AI 技能平台",
       },
     ],
   }),
@@ -135,7 +135,6 @@ function Login() {
               注册
             </RouterLink>
           </div>
-
         </form>
       </Form>
     </AuthLayout>

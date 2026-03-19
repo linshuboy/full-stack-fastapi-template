@@ -40,7 +40,7 @@ function Layout() {
                 "/admin": "用户",
                 "/settings": "设置"
               }
-              return pathToTitle[pathname] || "齐力智能助手"
+              return pathToTitle[pathname] || "齐力 AI 技能平台"
             })()}
           </h1>
           <div className="flex items-center gap-4">

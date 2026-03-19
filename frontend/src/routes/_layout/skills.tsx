@@ -54,7 +54,7 @@ export const Route = createFileRoute("/_layout/skills")({
   head: () => ({
     meta: [
       {
-        title: "技能 - 齐力智能助手",
+        title: "技能 - 齐力 AI 技能平台",
       },
     ],
   }),

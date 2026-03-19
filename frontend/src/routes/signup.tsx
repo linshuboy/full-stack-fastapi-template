@@ -51,7 +51,7 @@ export const Route = createFileRoute("/signup")({
   head: () => ({
     meta: [
       {
-        title: "注册 - 齐力智能助手",
+        title: "注册 - 齐力 AI 技能平台",
       },
     ],
   }),
